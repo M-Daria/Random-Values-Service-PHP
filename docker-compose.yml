@@ -1,0 +1,26 @@
+version: '3.1' 
+ 
+services:
+
+ apache-php: 
+   build: ./hosts
+   ports:
+     - 8080:80
+   volumes: 
+     - ./www:/var/www/html
+   links:
+     - db
+
+ db:
+   image: mariadb
+   volumes:
+     - ./db:/var/lib/mysql
+     - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+   environment:
+     MYSQL_ROOT_PASSWORD: secret
+
+ adminer:
+   image: adminer
+   ports:
+     - 6080:8080
+
